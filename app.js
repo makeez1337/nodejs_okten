@@ -40,6 +40,9 @@ const inPersonUsers = [
     {name: 'Nastya', age: 27, city: 'Odessa'}
 ];
 
+// і створити файли txt в папках (online, inPerson) в яких як дату покласти юзерів з ваших масивів,
+// але щоб ваш файл виглядав як NAME: ім'я з обєкту і т.д і всі пункти з нового рядка.
+
 // const personUsersKeys = Object.keys(inPersonUsers[0]);
 //
 // for (let inPersonUser of inPersonUsers) {
@@ -77,16 +80,16 @@ const inPersonUsers = [
 // з одного файлу і папки в іншу.
 // (ті, що були в папці inPerson будуть в папці online)
 
-fs.rename(path.join(__dirname,'main','inPerson','inPerson.txt'),path.join(__dirname,'main','online','inPerson.txt'),err => {
-    if (err) {
-        console.log(err);
-        throw err;
-    }
-})
-
-fs.rename(path.join(__dirname,'main','online','online.txt'),path.join(__dirname,'main','inPerson','online.txt'),err => {
-    if (err) {
-        console.log(err);
-        throw err;
-    }
-})
+// fs.rename(path.join(__dirname,'main','inPerson','inPerson.txt'),path.join(__dirname,'main','online','inPerson.txt'),err => {
+//     if (err) {
+//         console.log(err);
+//         throw err;
+//     }
+// })
+//
+// fs.rename(path.join(__dirname,'main','online','online.txt'),path.join(__dirname,'main','inPerson','online.txt'),err => {
+//     if (err) {
+//         console.log(err);
+//         throw err;
+//     }
+// })
