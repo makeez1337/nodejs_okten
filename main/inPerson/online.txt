@@ -1,0 +1,16 @@
+
+NAME: Max
+CITY: Sokal
+AGE: 20
+
+NAME: Anton
+CITY: Kharkiv
+AGE: 18
+
+NAME: Oleg
+CITY: Lviv
+AGE: 25
+
+NAME: Sasha
+CITY: Kiev
+AGE: 35

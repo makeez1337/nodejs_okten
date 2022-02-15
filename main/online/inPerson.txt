@@ -1,0 +1,16 @@
+
+NAME: Alina
+CITY: Lviv
+AGE: 20
+
+NAME: Nastya
+CITY: Odessa
+AGE: 27
+
+NAME: Vika
+CITY: Lviv
+AGE: 25
+
+NAME: Olena
+CITY: Kiev
+AGE: 23
