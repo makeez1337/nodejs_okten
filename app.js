@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fsP = require('fs').promises
 const path = require('path');
 
 // 1. Спробуйте створити якийсь файл txt, прочитайте з нього дані і одразу,
@@ -88,6 +89,42 @@ const path = require('path');
 //     })
 // }
 
+fs.readdir(path.join(__dirname,'third_task'),(err,data) => {
+
+    if (err) {
+        console.log(err);
+        throw err;
+    }
+
+    data.forEach(file => {
+        (async() => {
+            const stat = await fsP.lstat(path.join(__dirname,'third_task',`${file}`));
+
+            if (stat.isFile()) {
+                fs.truncate(path.join(__dirname,'third_task',`${file}`),err1 => {
+                    if (err1) {
+                        console.log(err1);
+                        throw err1;
+                    }
+                })
+            }
+
+            if (stat.isDirectory()) {
+                fs.rename(
+                    path.join(__dirname,'third_task',`${file}`),
+                    path.join(__dirname,'third_task',`${file}_new`),err1 => {
+                    if (err1) {
+                        console.log(err1);
+                        throw err1;
+                    }
+                })
+            }
+
+        })().catch(console.error)
+    })
+
+})
+
 // fs.readdir(path.join(__dirname, 'third_task'), (err, files) => {
 //     if (err) {
 //         console.log(err);
@@ -111,4 +148,3 @@ const path = require('path');
 //         }
 //     })
 // });
-
