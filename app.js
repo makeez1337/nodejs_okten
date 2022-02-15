@@ -124,27 +124,3 @@ fs.readdir(path.join(__dirname,'third_task'),(err,data) => {
     })
 
 })
-
-// fs.readdir(path.join(__dirname, 'third_task'), (err, files) => {
-//     if (err) {
-//         console.log(err);
-//         throw err;
-//     }
-//     files.forEach(file => {
-//         if (file.includes('.txt')) {
-//             fs.truncate(path.join(__dirname,'third_task',`${file}`),err1 => {
-//                 if (err1) {
-//                     console.log(err1);
-//                     throw err1;
-//                 }
-//             })
-//         }else {
-//             fs.rename(path.join(__dirname,'third_task',`${file}`),path.join(__dirname,'third_task',`${file}_new`),err1 => {
-//                 if (err1) {
-//                     console.log(err1);
-//                     throw err1;
-//                 }
-//             })
-//         }
-//     })
-// });
