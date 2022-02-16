@@ -8,6 +8,7 @@ const path = require('path');
 //         console.log(err);
 //         throw err;
 //     }
+//
 //     fs.mkdir(path.join(__dirname, 'main', 'online'), (err => {
 //         if (err) {
 //             console.log(err);
@@ -21,6 +22,7 @@ const path = require('path');
 //             throw err;
 //         }
 //     });
+//
 // });
 
 // Потім створити в вашому головному файлі (для прикладу app.js) два масиви з обєктами user
@@ -43,53 +45,23 @@ const inPersonUsers = [
 // і створити файли txt в папках (online, inPerson) в яких як дату покласти юзерів з ваших масивів,
 // але щоб ваш файл виглядав як NAME: ім'я з обєкту і т.д і всі пункти з нового рядка.
 
-// const personUsersKeys = Object.keys(inPersonUsers[0]);
+// const inPersonPath = path.join(__dirname, 'main', 'inPerson', 'inPerson.txt');
+// const onlinePath = path.join(__dirname, 'main', 'online', 'online.txt');
 //
-// for (let inPersonUser of inPersonUsers) {
-//     const name = `\nNAME: ${inPersonUser[personUsersKeys[0]]}\n`
-//     const age = `AGE: ${inPersonUser[personUsersKeys[1]]}\n`
-//     const city = `CITY: ${inPersonUser[personUsersKeys[2]]}\n`
-//     const user = `${name}${city}${age}`
-//     fs.appendFile(path.join('main', 'inPerson', 'inPerson.txt'),
-//         `${user}`
-//         , err => {
-//             if (err) {
-//                 console.log(err);
-//                 throw err;
-//             }
-//         })
-// }
-
-// const onlineUserKeys = Object.keys(onlineUsers[0]);
+// const {createFileWithUsers} = require('./utils');
 //
-// for (const onlineUser of onlineUsers) {
-//     const name = `\nNAME: ${onlineUser[onlineUserKeys[0]]}\n`
-//     const age = `AGE: ${onlineUser[onlineUserKeys[1]]}\n`
-//     const city = `CITY: ${onlineUser[onlineUserKeys[2]]}\n`
-//     const user = `${name}${city}${age}`
-//     fs.appendFile(path.join(__dirname, 'main', 'online', 'online.txt'), `${user}`, err => {
-//         if (err) {
-//             console.log(err);
-//             throw err;
-//         }
-//     })
-// }
-
+// createFileWithUsers(onlineUsers, onlinePath);
+// createFileWithUsers(inPersonUsers, inPersonPath);
 
 // Коли ви це виконаєте напишіть функцію яка буде міняти місцями юзерів
 // з одного файлу і папки в іншу.
 // (ті, що були в папці inPerson будуть в папці online)
 
-// fs.rename(path.join(__dirname,'main','inPerson','inPerson.txt'),path.join(__dirname,'main','online','inPerson.txt'),err => {
-//     if (err) {
-//         console.log(err);
-//         throw err;
-//     }
-// })
+// const {swapData} = require('./utils');
 //
-// fs.rename(path.join(__dirname,'main','online','online.txt'),path.join(__dirname,'main','inPerson','online.txt'),err => {
-//     if (err) {
-//         console.log(err);
-//         throw err;
-//     }
-// })
+// const inPersonPath = path.join(__dirname, 'main', 'inPerson', 'inPerson.txt');
+// const onlinePath = path.join(__dirname, 'main', 'online', 'online.txt');
+//
+// swapData(inPersonPath, onlinePath);
+// swapData(onlinePath, inPersonPath);
+
