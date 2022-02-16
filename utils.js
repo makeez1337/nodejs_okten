@@ -1,8 +1,7 @@
 const fs = require('fs');
 
 
-//CREATE TXT FILE WITH USERS
-
+//FOR CREATING TXT FILE WITH USERS
 const createFileWithUsers = (arrayWithUsers,pathToAppend) => {
     const userKeys = Object.keys(arrayWithUsers[0]);
 
