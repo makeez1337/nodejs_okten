@@ -1,5 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const {createFileWithUsers} = require('./utils');
+const {swapData} = require('./utils');
+
+
 
 // Створити основну папку (main), в яку покласти дві інші папки: перша - online, друга - inPerson,
 
@@ -48,16 +52,14 @@ const inPersonUsers = [
 // const inPersonPath = path.join(__dirname, 'main', 'inPerson', 'inPerson.txt');
 // const onlinePath = path.join(__dirname, 'main', 'online', 'online.txt');
 //
-// const {createFileWithUsers} = require('./utils');
 //
 // createFileWithUsers(onlineUsers, onlinePath);
 // createFileWithUsers(inPersonUsers, inPersonPath);
-
+//
 // Коли ви це виконаєте напишіть функцію яка буде міняти місцями юзерів
 // з одного файлу і папки в іншу.
 // (ті, що були в папці inPerson будуть в папці online)
-
-// const {swapData} = require('./utils');
+//
 //
 // const inPersonPath = path.join(__dirname, 'main', 'inPerson', 'inPerson.txt');
 // const onlinePath = path.join(__dirname, 'main', 'online', 'online.txt');
