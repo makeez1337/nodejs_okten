@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {createFileWithUsers} = require('./utils');
-const {swapData} = require('./utils');
+const {createFileWithUsers,swapData} = require('./utils');
 
 
 
