@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+
 const {createFileWithUsers,swapData} = require('./utils');
-
-
 
 // Створити основну папку (main), в яку покласти дві інші папки: перша - online, друга - inPerson,
 
