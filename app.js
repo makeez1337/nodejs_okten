@@ -15,7 +15,26 @@ app.set('view engine', '.hbs');
 app.engine('.hbs', engine({defaultLayout: false}));
 app.set('views', staticPath);
 
-let users = [];
+let users = [
+    {
+        email: 'makeez@mail.com',
+        password: 'asdqwe123',
+        firstName: 'Makeez',
+        lastName: 'Ivanov',
+        age: 20,
+        city: 'Sokal',
+        id: 0
+    },
+    {
+        email: 'oleg@mail.com',
+        password: 'oleg123q',
+        firstName: 'Oleg',
+        lastName: 'Voytov',
+        age: 30,
+        city: 'Lviv',
+        id: 1
+    },
+];
 const usersEmails = [];
 
 app.get('/login', ((req, res) => {
@@ -64,7 +83,7 @@ app.get('/users/:id', ((req, res) => {
     console.log(user);
 
     if (user.length) {
-        res.render('user',{user});
+        res.render('user', {user});
     } else {
         res.json('No such user');
     }
@@ -95,7 +114,7 @@ app.post('/login', ((req, res) => {
     usersEmails.push(req.body.email);
 }))
 
-app.post('/users/:id',((req, res) => {
+app.post('/users/:id', ((req, res) => {
     const {id} = req.params;
     users = users.filter(user => user.id !== +id);
     res.redirect('/users');
