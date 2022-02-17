@@ -16,26 +16,25 @@ app.engine('.hbs', engine({defaultLayout: false}));
 app.set('views', staticPath);
 
 let users = [
-    // {
-    //     email: 'makeez@mail.com',
-    //     password: 'asdqwe123',
-    //     firstName: 'Makeez',
-    //     lastName: 'Ivanov',
-    //     age: 20,
-    //     city: 'Sokal',
-    //     id: 0
-    // },
-    // {
-    //     email: 'oleg@mail.com',
-    //     password: 'oleg123q',
-    //     firstName: 'Oleg',
-    //     lastName: 'Voytov',
-    //     age: 30,
-    //     city: 'Lviv',
-    //     id: 1
-    // },
+    {
+        email: 'makeez@mail.com',
+        password: 'asdqwe123',
+        firstName: 'Makeez',
+        lastName: 'Ivanov',
+        age: 20,
+        city: 'Sokal',
+        id: 0
+    },
+    {
+        email: 'oleg@mail.com',
+        password: 'oleg123q',
+        firstName: 'Oleg',
+        lastName: 'Voytov',
+        age: 30,
+        city: 'Lviv',
+        id: 1
+    },
 ];
-// const usersEmails = [];
 
 app.get('/login', ((req, res) => {
     res.render('login');
