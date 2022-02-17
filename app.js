@@ -23,7 +23,7 @@ let users = [
         lastName: 'Ivanov',
         age: 20,
         city: 'Sokal',
-        id: 0
+        id: 1
     },
     {
         email: 'oleg@mail.com',
@@ -32,7 +32,7 @@ let users = [
         lastName: 'Voytov',
         age: 30,
         city: 'Lviv',
-        id: 1
+        id: 2
     },
 ];
 
