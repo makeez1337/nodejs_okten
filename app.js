@@ -16,26 +16,26 @@ app.engine('.hbs', engine({defaultLayout: false}));
 app.set('views', staticPath);
 
 let users = [
-    {
-        email: 'makeez@mail.com',
-        password: 'asdqwe123',
-        firstName: 'Makeez',
-        lastName: 'Ivanov',
-        age: 20,
-        city: 'Sokal',
-        id: 0
-    },
-    {
-        email: 'oleg@mail.com',
-        password: 'oleg123q',
-        firstName: 'Oleg',
-        lastName: 'Voytov',
-        age: 30,
-        city: 'Lviv',
-        id: 1
-    },
+    // {
+    //     email: 'makeez@mail.com',
+    //     password: 'asdqwe123',
+    //     firstName: 'Makeez',
+    //     lastName: 'Ivanov',
+    //     age: 20,
+    //     city: 'Sokal',
+    //     id: 0
+    // },
+    // {
+    //     email: 'oleg@mail.com',
+    //     password: 'oleg123q',
+    //     firstName: 'Oleg',
+    //     lastName: 'Voytov',
+    //     age: 30,
+    //     city: 'Lviv',
+    //     id: 1
+    // },
 ];
-const usersEmails = [];
+// const usersEmails = [];
 
 app.get('/login', ((req, res) => {
     res.render('login');
@@ -98,21 +98,22 @@ app.get('*', (req, res) => {
 })
 
 app.post('/login', ((req, res) => {
-    if (!users.length) {
-        users.push({...req.body, id: 1});
-        res.redirect('/users');
-    } else {
-        const lastUserId = users[users.length - 1].id;
-
-        if (!usersEmails.includes(req.body.email)) {
-            users.push({...req.body, id: lastUserId + 1});
+        if (!users.length) {
+            users.push({...req.body, id: 1});
             res.redirect('/users');
         } else {
-            res.redirect('/error');
+            const lastUserId = users[users.length - 1].id;
+            const isEqual = users.some(user => user.email === req.body.email);
+
+            if (isEqual) {
+                res.redirect('/error');
+            }else {
+                users.push({...req.body, id: lastUserId + 1});
+                res.redirect('/users');
+            }
         }
     }
-    usersEmails.push(req.body.email);
-}))
+))
 
 app.post('/users/:id', ((req, res) => {
     const {id} = req.params;
@@ -124,3 +125,4 @@ app.post('/users/:id', ((req, res) => {
 app.listen(5200, () => {
     console.log('Server on PORT 5200 has started');
 })
+
