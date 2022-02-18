@@ -102,9 +102,9 @@ app.post('/login', ((req, res) => {
             res.redirect('/users');
         } else {
             const lastUserId = users[users.length - 1].id;
-            const isEqual = users.some(user => user.email === req.body.email);
+            const isEmailExist = users.some(user => user.email === req.body.email);
 
-            if (isEqual) {
+            if (isEmailExist) {
                 res.redirect('/error');
             }else {
                 users.push({...req.body, id: lastUserId + 1});
