@@ -20,11 +20,11 @@ const isLoginFilled = (req, res, next) => {
         if (!city) {
             throw new Error('You have to fill city');
         }
+        next();
     } catch (e) {
         res.status(400).send(e.message);
     }
 
-    next();
 }
 
 module.exports = isLoginFilled;
