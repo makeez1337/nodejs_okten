@@ -1,9 +1,9 @@
 const {Router} = require('express');
 
-const errorController = require('../controllers/errorController');
-
 const errorRouter = Router();
 
-errorRouter.get('/', errorController.renderErrorPage);
+errorRouter.get('/', ((req, res) => {
+    res.render('error');
+}));
 
 module.exports = errorRouter;
