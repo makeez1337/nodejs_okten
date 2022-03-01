@@ -24,7 +24,6 @@ app.get('/posts/:userId', async (req, res) => {
     const posts = await (0, typeorm_1.getManager)()
         .getRepository(post_1.Post)
         .createQueryBuilder('post')
-        // .innerJoin('Posts', 'post', 'post.userId = user.id')
         .where('post.userId = :userId', { userId })
         .getMany();
     res.json(posts);
