@@ -9,12 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Comment = void 0;
 const typeorm_1 = require("typeorm");
 const commonFields_1 = require("./commonFields");
+const user_1 = require("./user");
 const post_1 = require("./post");
-const comment_1 = require("./comment");
-let User = class User extends commonFields_1.CommonFields {
+let Comment = class Comment extends commonFields_1.CommonFields {
 };
 __decorate([
     (0, typeorm_1.Column)({
@@ -23,54 +23,47 @@ __decorate([
         nullable: false,
     }),
     __metadata("design:type", String)
-], User.prototype, "firstName", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
-        type: 'varchar',
-        width: 250,
-        nullable: false,
-    }),
-    __metadata("design:type", String)
-], User.prototype, "lastName", void 0);
+], Comment.prototype, "text", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: 'integer',
+        nullable: false,
     }),
     __metadata("design:type", Number)
-], User.prototype, "age", void 0);
+], Comment.prototype, "authorId", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: 'varchar',
+        type: 'integer',
         nullable: false,
-        unique: true,
     }),
-    __metadata("design:type", String)
-], User.prototype, "phone", void 0);
+    __metadata("design:type", Number)
+], Comment.prototype, "postId", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: 'varchar',
+        type: 'integer',
         nullable: false,
-        unique: true,
     }),
-    __metadata("design:type", String)
-], User.prototype, "email", void 0);
+    __metadata("design:type", Number)
+], Comment.prototype, "likes", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: 'varchar',
+        type: 'integer',
         nullable: false,
     }),
-    __metadata("design:type", String)
-], User.prototype, "password", void 0);
+    __metadata("design:type", Number)
+], Comment.prototype, "dislikes", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => post_1.Post, (post) => post.user),
+    (0, typeorm_1.ManyToOne)(() => user_1.User, (user) => user.comments),
+    (0, typeorm_1.JoinColumn)({ name: 'authorId' }),
+    __metadata("design:type", user_1.User)
+], Comment.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => post_1.Post, (post) => post.comments),
+    (0, typeorm_1.JoinColumn)({ name: 'postId' }),
     __metadata("design:type", Array)
-], User.prototype, "posts", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => comment_1.Comment, (comment) => comment.user),
-    __metadata("design:type", Array)
-], User.prototype, "comments", void 0);
-User = __decorate([
-    (0, typeorm_1.Entity)('Users', { database: 'okten' })
-], User);
-exports.User = User;
-//# sourceMappingURL=user.js.map
+], Comment.prototype, "post", void 0);
+Comment = __decorate([
+    (0, typeorm_1.Entity)('Comments', { database: 'okten' })
+], Comment);
+exports.Comment = Comment;
+//# sourceMappingURL=comment.js.map

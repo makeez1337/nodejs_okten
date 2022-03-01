@@ -18,7 +18,7 @@ class CreateTablesUsers1645563348606 {
         `);
     }
     async down(queryRunner) {
-        queryRunner.query(`
+        await queryRunner.query(`
         DROP TABLE IF EXISTS Users
         `);
     }
