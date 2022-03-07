@@ -58,6 +58,19 @@ app.patch('/posts/:postId', async (req, res) => {
         .update({ id: Number(req.params.postId) }, { text });
     res.json(updatedPost);
 });
+app.patch('/comments/action', async (req, res) => {
+    const { actionId, action } = req.body;
+    if (action === 'dislike') {
+        const updatedComment = await (0, typeorm_1.getManager)().getRepository(comment_1.Comment)
+            .increment({ id: Number(actionId) }, 'dislikes', '1');
+        res.json(updatedComment);
+    }
+    if (action === 'like') {
+        const updatedComment = await (0, typeorm_1.getManager)().getRepository(comment_1.Comment)
+            .increment({ id: Number(actionId) }, 'likes', '1');
+        res.json(updatedComment);
+    }
+});
 app.delete('/users/:id', async (req, res) => {
     const deletedUser = (0, typeorm_1.getManager)().getRepository(user_1.User).softDelete({ id: Number(req.params.id) });
     res.json(deletedUser);

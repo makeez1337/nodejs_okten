@@ -65,6 +65,22 @@ app.patch('/posts/:postId', async (req:Request, res:Response) => {
     res.json(updatedPost);
 });
 
+app.patch('/comments/action', async (req:Request, res:Response) => {
+    const { actionId, action } = req.body;
+
+    if (action === 'dislike') {
+        const updatedComment = await getManager().getRepository(Comment)
+            .increment({ id: Number(actionId) }, 'dislikes', '1');
+        res.json(updatedComment);
+    }
+
+    if (action === 'like') {
+        const updatedComment = await getManager().getRepository(Comment)
+            .increment({ id: Number(actionId) }, 'likes', '1');
+        res.json(updatedComment);
+    }
+});
+
 app.delete('/users/:id', async (req:Request, res:Response) => {
     const deletedUser = getManager().getRepository(User).softDelete({ id: Number(req.params.id) });
     res.json(deletedUser);
