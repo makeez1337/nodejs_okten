@@ -8,6 +8,7 @@ const typeorm_1 = require("typeorm");
 const user_1 = require("./entity/user");
 require("reflect-metadata");
 const post_1 = require("./entity/post");
+const comment_1 = require("./entity/comment");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -28,6 +29,15 @@ app.get('/posts/:userId', async (req, res) => {
         .getMany();
     res.json(posts);
 });
+app.get('/comment/:userId', async (req, res) => {
+    const { userId } = req.params;
+    const comments = await (0, typeorm_1.getManager)().getRepository(comment_1.Comment)
+        .createQueryBuilder('comment')
+        .where('comment.authorId = :userId', { userId })
+        .innerJoinAndSelect('comment.post', 'post')
+        .getMany();
+    res.json(comments);
+});
 app.post('/users', async (req, res) => {
     const newUser = await (0, typeorm_1.getManager)().getRepository(user_1.User).save(req.body);
     res.json(newUser);
@@ -40,6 +50,13 @@ app.patch('/users/:id', async (req, res) => {
         password, email,
     });
     res.json(updatedUser);
+});
+app.patch('/posts/:postId', async (req, res) => {
+    const { text } = req.body;
+    const updatedPost = await (0, typeorm_1.getManager)()
+        .getRepository(post_1.Post)
+        .update({ id: Number(req.params.postId) }, { text });
+    res.json(updatedPost);
 });
 app.delete('/users/:id', async (req, res) => {
     const deletedUser = (0, typeorm_1.getManager)().getRepository(user_1.User).softDelete({ id: Number(req.params.id) });

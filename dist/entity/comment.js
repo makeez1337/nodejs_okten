@@ -19,7 +19,7 @@ let Comment = class Comment extends commonFields_1.CommonFields {
 __decorate([
     (0, typeorm_1.Column)({
         type: 'varchar',
-        width: 250,
+        width: 255,
         nullable: false,
     }),
     __metadata("design:type", String)
@@ -58,9 +58,9 @@ __decorate([
     __metadata("design:type", user_1.User)
 ], Comment.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => post_1.Post, (post) => post.comments),
+    (0, typeorm_1.ManyToOne)(() => post_1.Post, (post) => post.comments),
     (0, typeorm_1.JoinColumn)({ name: 'postId' }),
-    __metadata("design:type", Array)
+    __metadata("design:type", post_1.Post)
 ], Comment.prototype, "post", void 0);
 Comment = __decorate([
     (0, typeorm_1.Entity)('Comments', { database: 'okten' })

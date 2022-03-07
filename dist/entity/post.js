@@ -19,7 +19,7 @@ let Post = class Post extends commonFields_1.CommonFields {
 __decorate([
     (0, typeorm_1.Column)({
         type: 'varchar',
-        width: 250,
+        width: 255,
         nullable: false,
         unique: true,
     }),
@@ -28,7 +28,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({
         type: 'varchar',
-        width: 250,
+        width: 255,
         nullable: false,
     }),
     __metadata("design:type", String)
@@ -46,7 +46,7 @@ __decorate([
     __metadata("design:type", user_1.User)
 ], Post.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => comment_1.Comment, (comment) => comment.post),
+    (0, typeorm_1.OneToMany)(() => comment_1.Comment, (comment) => comment.post),
     __metadata("design:type", Array)
 ], Post.prototype, "comments", void 0);
 Post = __decorate([

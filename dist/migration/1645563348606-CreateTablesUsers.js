@@ -6,12 +6,12 @@ class CreateTablesUsers1645563348606 {
         await queryRunner.query(`
             CREATE TABLE IF NOT EXISTS Users(
                 id INT PRIMARY KEY AUTO_INCREMENT,
-                firstName VARCHAR(250) NOT NULL,
-                lastName VARCHAR(250) NOT NULL,
+                firstName VARCHAR(255) NOT NULL,
+                lastName VARCHAR(255) NOT NULL,
                 age INT check (age > 0),
-                phone VARCHAR (250) NOT NULL UNIQUE,
-                email VARCHAR (250) NOT NULL UNIQUE,
-                password VARCHAR (250) NOT NULL,
+                phone VARCHAR (255) NOT NULL UNIQUE,
+                email VARCHAR (255) NOT NULL UNIQUE,
+                password VARCHAR (255) NOT NULL,
                 createdAd TIMESTAMP DEFAULT(UTC_TIMESTAMP()) NOT NULL,
                 deletedAt TIMESTAMP 
             )

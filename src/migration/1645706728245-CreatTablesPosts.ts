@@ -5,8 +5,8 @@ export class CreatTablesPosts1645706728245 implements MigrationInterface {
         await queryRunner.query(`
             CREATE TABLE IF NOT EXISTS Posts(
                 id INT PRIMARY KEY AUTO_INCREMENT,
-                title VARCHAR (250) NOT NULL UNIQUE,
-                text VARCHAR (250) NOT NULL,
+                title VARCHAR (255) NOT NULL UNIQUE,
+                text VARCHAR (255) NOT NULL,
                 userId INT NOT NULL,
                 createdAt TIMESTAMP DEFAULT(UTC_TIMESTAMP()) NOT NULL,
                 deletedAt TIMESTAMP,

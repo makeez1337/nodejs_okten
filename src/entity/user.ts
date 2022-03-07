@@ -16,14 +16,14 @@ export interface IUser {
 export class User extends CommonFields implements IUser {
     @Column({
         type: 'varchar',
-        width: 250,
+        width: 255,
         nullable: false,
     })
         firstName:string;
 
     @Column({
         type: 'varchar',
-        width: 250,
+        width: 255,
         nullable: false,
     })
         lastName:string;

@@ -1,5 +1,5 @@
 import {
-    Column, Entity, JoinColumn, ManyToMany, ManyToOne,
+    Column, Entity, JoinColumn, ManyToOne,
 } from 'typeorm';
 import { CommonFields } from './commonFields';
 import { User } from './user';
@@ -17,7 +17,7 @@ interface IComment {
 export class Comment extends CommonFields implements IComment {
     @Column({
         type: 'varchar',
-        width: 250,
+        width: 255,
         nullable: false,
     })
         text:string;
@@ -50,7 +50,7 @@ export class Comment extends CommonFields implements IComment {
     @JoinColumn({ name: 'authorId' })
         user:User;
 
-    @ManyToMany(() => Post, (post) => post.comments)
+    @ManyToOne(() => Post, (post) => post.comments)
     @JoinColumn({ name: 'postId' })
-        post:Post[];
+        post:Post;
 }

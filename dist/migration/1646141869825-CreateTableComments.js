@@ -6,12 +6,12 @@ class CreateTableComments1646141869825 {
         await queryRunner.query(`
         CREATE TABLE IF NOT EXISTS Comments (
             id INT PRIMARY KEY AUTO_INCREMENT,
-            text VARCHAR (250) NOT NULL,
+            text VARCHAR (255) NOT NULL,
             authorId INT NOT NULL,
             postId INT NOT NULL,
             likes INT NOT NULL,
             dislikes INT NOT NULL,
-            createdAt TIMESTAMP DEFAULT (UTC_TIMESTAMP) NOT NULL,
+            createdAt TIMESTAMP DEFAULT (UTC_TIMESTAMP()) NOT NULL,
             deletedAt TIMESTAMP,
             
             CONSTRAINT fk_authorId 
@@ -24,7 +24,7 @@ class CreateTableComments1646141869825 {
             FOREIGN KEY (postId)
                 REFERENCES Posts(id)
                 ON UPDATE CASCADE 
-                ON DELETE CASCADE 
+                ON DELETE CASCADE
         )
         `);
     }
