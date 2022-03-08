@@ -5,21 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const typeorm_1 = require("typeorm");
-const user_1 = require("./entity/user");
 require("reflect-metadata");
 const post_1 = require("./entity/post");
 const comment_1 = require("./entity/comment");
+const apiRouter_1 = require("./routes/apiRouter");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.get('/users', async (req, res) => {
-    const users = await (0, typeorm_1.getManager)().getRepository(user_1.User).find({ relations: ['posts'] });
-    // const users = await getManager().getRepository(User)
-    //     .createQueryBuilder('user')
-    //     .innerJoin('Posts', 'posts', 'posts.userId = user.id')
-    //     .getMany();
-    res.json(users);
-});
+app.use(apiRouter_1.apiRouter);
 app.get('/posts/:userId', async (req, res) => {
     const { userId } = req.params;
     const posts = await (0, typeorm_1.getManager)()
@@ -37,19 +30,6 @@ app.get('/comment/:userId', async (req, res) => {
         .innerJoinAndSelect('comment.post', 'post')
         .getMany();
     res.json(comments);
-});
-app.post('/users', async (req, res) => {
-    const newUser = await (0, typeorm_1.getManager)().getRepository(user_1.User).save(req.body);
-    res.json(newUser);
-});
-app.patch('/users/:id', async (req, res) => {
-    const { password, email } = req.body;
-    const updatedUser = await (0, typeorm_1.getManager)()
-        .getRepository(user_1.User)
-        .update({ id: Number(req.params.id) }, {
-        password, email,
-    });
-    res.json(updatedUser);
 });
 app.patch('/posts/:postId', async (req, res) => {
     const { text } = req.body;
@@ -71,12 +51,8 @@ app.patch('/comments/action', async (req, res) => {
         res.json(updatedComment);
     }
 });
-app.delete('/users/:id', async (req, res) => {
-    const deletedUser = (0, typeorm_1.getManager)().getRepository(user_1.User).softDelete({ id: Number(req.params.id) });
-    res.json(deletedUser);
-});
-app.listen(5000, async () => {
-    console.log('Server on PORT 5000 has started');
+app.listen(5200, async () => {
+    console.log('Server on PORT 5200 has started');
     try {
         const connection = await (0, typeorm_1.createConnection)();
         if (connection) {

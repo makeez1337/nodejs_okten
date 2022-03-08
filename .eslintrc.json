@@ -24,7 +24,8 @@
                 "ts": "never"
             }
         ],
-        "class-methods-use-this": ["error",{"exceptMethods": ["up","down"]}]
+        "class-methods-use-this": "off",
+        "no-unused-vars": "off"
     },
     "settings": {
         "import/resolver": {

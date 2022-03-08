@@ -1,24 +1,17 @@
 import express, { Request, Response } from 'express';
 import { createConnection, getManager } from 'typeorm';
-import { User } from './entity/user';
 import 'reflect-metadata';
+
 import { Post } from './entity/post';
 import { Comment } from './entity/comment';
+import { apiRouter } from './routes/apiRouter';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/users', async (req:Request, res:Response) => {
-    const users = await getManager().getRepository(User).find({ relations: ['posts'] });
-    // const users = await getManager().getRepository(User)
-    //     .createQueryBuilder('user')
-    //     .innerJoin('Posts', 'posts', 'posts.userId = user.id')
-    //     .getMany();
-
-    res.json(users);
-});
+app.use(apiRouter);
 
 app.get('/posts/:userId', async (req:Request, res:Response) => {
     const { userId } = req.params;
@@ -38,22 +31,6 @@ app.get('/comment/:userId', async (req:Request, res:Response) => {
         .innerJoinAndSelect('comment.post', 'post')
         .getMany();
     res.json(comments);
-});
-
-app.post('/users', async (req:Request, res:Response) => {
-    const newUser = await getManager().getRepository(User).save(req.body);
-    res.json(newUser);
-});
-
-app.patch('/users/:id', async (req:Request, res:Response) => {
-    const { password, email } = req.body;
-
-    const updatedUser = await getManager()
-        .getRepository(User)
-        .update({ id: Number(req.params.id) }, {
-            password, email,
-        });
-    res.json(updatedUser);
 });
 
 app.patch('/posts/:postId', async (req:Request, res:Response) => {
@@ -81,13 +58,8 @@ app.patch('/comments/action', async (req:Request, res:Response) => {
     }
 });
 
-app.delete('/users/:id', async (req:Request, res:Response) => {
-    const deletedUser = getManager().getRepository(User).softDelete({ id: Number(req.params.id) });
-    res.json(deletedUser);
-});
-
-app.listen(5000, async () => {
-    console.log('Server on PORT 5000 has started');
+app.listen(5200, async () => {
+    console.log('Server on PORT 5200 has started');
     try {
         const connection = await createConnection();
 
