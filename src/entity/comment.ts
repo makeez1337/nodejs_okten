@@ -1,11 +1,12 @@
 import {
     Column, Entity, JoinColumn, ManyToOne,
 } from 'typeorm';
+
 import { CommonFields } from './commonFields';
 import { User } from './user';
 import { Post } from './post';
 
-interface IComment {
+export interface IComment {
     text: string;
     authorId: number;
     postId: number;
