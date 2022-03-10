@@ -1,28 +1,32 @@
 import { DeleteResult, UpdateResult } from 'typeorm';
 
+import bcrypt from 'bcrypt';
 import { userRepository } from '../repositories/users/usersRepository';
 import { IUser } from '../entity/user';
 
 class UserService {
     public async getUsers():Promise<IUser[]> {
-        const users = await userRepository.getUsers();
-        return users;
+        return userRepository.getUsers();
     }
 
     public async createUser(user:IUser):Promise<IUser> {
-        const newUser = await userRepository.createUser(user);
-        return newUser;
+        const { password } = user;
+        const hashedPassword = await this._hashedPassword(password);
+        const dataToSave = { ...user, password: hashedPassword };
+
+        return userRepository.createUser(dataToSave);
     }
 
     public async updateUser(password:string, email:string, id:number):Promise<UpdateResult> {
-        const updatedUser = await userRepository.updatedUser(password, email, id);
-        return updatedUser;
+        return userRepository.updatedUser(password, email, id);
     }
 
     public async deleteUser(id:number):Promise<DeleteResult> {
-        const deletedUser = await userRepository.deleteUser(id);
+        return userRepository.deleteUser(id);
+    }
 
-        return deletedUser;
+    private async _hashedPassword(password:string):Promise<string> {
+        return bcrypt.hash(password, 10);
     }
 }
 
