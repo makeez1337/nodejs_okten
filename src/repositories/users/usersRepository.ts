@@ -24,6 +24,14 @@ export class UsersRepository extends Repository<User> implements IUserRepository
             });
     }
 
+    public async getUserByEmail(email:string):Promise<IUser | undefined> {
+        return getManager().getRepository(User)
+            .createQueryBuilder('user')
+            .where('user.email = :email', { email })
+            .andWhere('user.deletedAt IS NULL')
+            .getOne();
+    }
+
     public async deleteUser(id:number):Promise<DeleteResult> {
         return getManager()
             .getRepository(User).softDelete({ id });

@@ -33,6 +33,13 @@ export class UserController {
         const deletedUser = await userService.deleteUser(Number(req.params.id));
         return res.json(deletedUser);
     }
+
+    public async getUserByEmail(req:Request, res:Response):Promise<Response<IUser>> {
+        const { email } = req.params;
+
+        const user = userService.getUserByEmail(email);
+        return res.json(user);
+    }
 }
 
 export const userController = new UserController();

@@ -1,16 +1,18 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 
 import { CommonFields } from './commonFields';
-import { Post } from './post';
+import { IPost, Post } from './post';
 import { Comment } from './comment';
 
 export interface IUser {
+    id:number;
     firstName:string;
     lastName:string;
     age?:number;
     phone:string;
     email:string;
     password:string;
+    posts:IPost[];
 }
 
 @Entity('Users', { database: 'okten' })

@@ -25,6 +25,11 @@ class UserController {
         const deletedUser = await userService_1.userService.deleteUser(Number(req.params.id));
         return res.json(deletedUser);
     }
+    async getUserByEmail(req, res) {
+        const { email } = req.params;
+        const user = userService_1.userService.getUserByEmail(email);
+        return res.json(user);
+    }
 }
 exports.UserController = UserController;
 exports.userController = new UserController();

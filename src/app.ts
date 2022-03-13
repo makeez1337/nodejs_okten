@@ -3,6 +3,7 @@ import { createConnection } from 'typeorm';
 import 'reflect-metadata';
 
 import { apiRouter } from './routes/apiRouter';
+import { config } from './config/config';
 
 const app = express();
 
@@ -11,8 +12,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(apiRouter);
 
-app.listen(5200, async () => {
-    console.log('Server on PORT 5200 has started');
+const { PORT } = config;
+
+app.listen(PORT, async () => {
+    console.log(`Server on PORT ${PORT} has started`);
     try {
         const connection = await createConnection();
 

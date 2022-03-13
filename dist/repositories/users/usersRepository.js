@@ -23,6 +23,13 @@ let UsersRepository = class UsersRepository extends typeorm_1.Repository {
             password, email,
         });
     }
+    async getUserByEmail(email) {
+        return (0, typeorm_1.getManager)().getRepository(user_1.User)
+            .createQueryBuilder('user')
+            .where('user.email = :email', { email })
+            .andWhere('user.deletedAt IS NULL')
+            .getOne();
+    }
     async deleteUser(id) {
         return (0, typeorm_1.getManager)()
             .getRepository(user_1.User).softDelete({ id });
