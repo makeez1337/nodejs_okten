@@ -1,4 +1,5 @@
 import { UpdateResult } from 'typeorm';
+
 import { IComment } from '../../entity/comment';
 
 export interface ICommentRepository {
