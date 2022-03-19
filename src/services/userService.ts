@@ -29,6 +29,14 @@ class UserService {
         return userRepository.getUserByEmail(email);
     }
 
+    public async compareUserPaswords(password:string, hash:string):Promise<void | Error> {
+        const isPasswordsEqual = await bcrypt.compare(password, hash);
+
+        if (!isPasswordsEqual) {
+            throw new Error('Email or password is not valid');
+        }
+    }
+
     private async _hashedPassword(password:string):Promise<string> {
         return bcrypt.hash(password, 10);
     }
