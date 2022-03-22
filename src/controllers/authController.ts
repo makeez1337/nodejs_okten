@@ -7,6 +7,7 @@ import { IRequestExtended } from '../interfaces/requestExtended.interface';
 import { IUser } from '../entity/user';
 import { tokenRepository } from '../repositories/token/tokenRepository';
 import { userService } from '../services/userService';
+import { HEADER } from '../constants/header';
 
 class AuthController {
     public async registration(req:Request, res:Response) {
@@ -37,6 +38,28 @@ class AuthController {
                 { userId: id, userEmail: email },
             );
             await tokenRepository.createToken({ accessToken, refreshToken, userId: id });
+
+            res.json({
+                refreshToken,
+                accessToken,
+                user: req.user,
+            });
+        } catch (e) {
+            res.status(400).json(e);
+        }
+    }
+
+    public async refreshToken(req:IRequestExtended, res:Response) {
+        try {
+            const { id, email } = req.user as IUser;
+            const refreshTokenToDelete = req.get(HEADER.Authorization);
+
+            await tokenService.deleteTokenPairByParam({ refreshToken: refreshTokenToDelete });
+
+            const { refreshToken, accessToken } = await
+            tokenService.generateTokenPair({ userId: id, userEmail: email });
+
+            await tokenRepository.createToken({ refreshToken, accessToken, userId: id });
 
             res.json({
                 refreshToken,

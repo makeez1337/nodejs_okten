@@ -39,6 +39,10 @@ config.SECRET_REFRESH_KEY as string,
         return tokenRepository.deleteUserTokenPair(Number(userId));
     }
 
+    public async deleteTokenPairByParam(params:Partial<IToken>):Promise<DeleteResult> {
+        return tokenRepository.deleteTokenPairByParam(params);
+    }
+
     public async verifyToken(authToken: string, tokenType = 'access'): Promise<IUserPayload> {
         let secretWord = config.SECRET_ACCESS_KEY;
 

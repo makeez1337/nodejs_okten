@@ -19,6 +19,10 @@ class TokenRepository {
     public async findTokenByParams(params:Partial<IToken>):Promise<IToken | undefined> {
         return getManager().getRepository(Token).findOne({ ...params });
     }
+
+    public async deleteTokenPairByParam(params: Partial<IToken>) {
+        return getManager().getRepository(Token).delete(params);
+    }
 }
 
 export const tokenRepository = new TokenRepository();
