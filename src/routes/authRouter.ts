@@ -7,7 +7,7 @@ import { authValidator } from '../validators';
 
 const router = Router();
 
-router.post('/registration', authController.registration);
+router.post('/registration', celebrate(authValidator.registration), authController.registration);
 router.post('/login', celebrate(authValidator.login), userMiddleware.checkIsUserExists, authController.login);
 router.post('/logout', authMiddleware.checkAccessToken, authController.logout);
 router.post('/refresh', authMiddleware.checkRefreshToken, authController.refreshToken);

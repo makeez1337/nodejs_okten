@@ -4,6 +4,7 @@ import { tokenService, userService } from '../services';
 import { IRequestExtended } from '../interfaces';
 import { HEADER } from '../constants';
 import { tokenRepository } from '../repositories';
+import { ErrorHandler } from '../error/errorHandler';
 
 class AuthMiddleware {
     public async checkAccessToken(req:IRequestExtended, res:Response, next:NextFunction) {
@@ -11,7 +12,8 @@ class AuthMiddleware {
             const accessToken = req.get(HEADER.Authorization);
 
             if (!accessToken) {
-                throw new Error('Token is not valid');
+                next(new ErrorHandler('Token is not valid', 404));
+                return;
             }
 
             const { userEmail } = await tokenService.verifyToken(accessToken);
@@ -19,11 +21,13 @@ class AuthMiddleware {
 
             const tokenPairFromDB = await tokenRepository.findTokenByParams({ accessToken });
             if (!tokenPairFromDB) {
-                res.status(400).json('Token is not valid');
+                next(new ErrorHandler('Token is not valid', 404));
+                return;
             }
 
             if (!userFromToken) {
-                throw new Error('Wrong token');
+                next(new ErrorHandler('Wrong token', 404));
+                return;
             }
 
             req.user = userFromToken;
@@ -41,7 +45,8 @@ class AuthMiddleware {
             const refreshToken = req.get(HEADER.Authorization);
 
             if (!refreshToken) {
-                throw new Error('Token is not valid');
+                next(new ErrorHandler('Token is not valid', 404));
+                return;
             }
 
             const { userEmail } = await tokenService.verifyToken(refreshToken, 'refresh');
@@ -49,11 +54,13 @@ class AuthMiddleware {
 
             const tokenPairFromDB = await tokenRepository.findTokenByParams({ refreshToken });
             if (!tokenPairFromDB) {
-                res.status(400).json('Token is not valid');
+                next(new ErrorHandler('Token is not valid', 404));
+                return;
             }
 
             if (!userFromToken) {
-                throw new Error('Wrong token');
+                next(new ErrorHandler('Wrong token', 404));
+                return;
             }
 
             req.user = userFromToken;
