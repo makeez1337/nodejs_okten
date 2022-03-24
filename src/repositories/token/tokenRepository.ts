@@ -1,7 +1,7 @@
 import { DeleteResult, getManager } from 'typeorm';
 
-import { IToken, Token } from '../../entity/token';
-import { ITokenDataToSave } from '../../interfaces/token.interface';
+import { IToken, Token } from '../../entity';
+import { ITokenDataToSave } from '../../interfaces';
 
 class TokenRepository {
     public async createToken(token:ITokenDataToSave):Promise<IToken> {

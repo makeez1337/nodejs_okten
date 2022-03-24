@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 
 import { DeleteResult } from 'typeorm';
-import { config } from '../config/config';
-import { IToken } from '../entity/token';
-import { tokenRepository } from '../repositories/token/tokenRepository';
-import { ITokenPair, IUserPayload } from '../interfaces/token.interface';
+import { config } from '../config';
+import { IToken } from '../entity';
+import { tokenRepository } from '../repositories';
+import { ITokenPair, IUserPayload } from '../interfaces';
 
 class TokenService {
     public generateTokenPair(payload:IUserPayload):ITokenPair {

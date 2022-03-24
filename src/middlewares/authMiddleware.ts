@@ -1,10 +1,9 @@
 import { NextFunction, Response } from 'express';
 
-import { tokenService } from '../services/tokenService';
-import { userService } from '../services/userService';
-import { IRequestExtended } from '../interfaces/requestExtended.interface';
-import { HEADER } from '../constants/header';
-import { tokenRepository } from '../repositories/token/tokenRepository';
+import { tokenService, userService } from '../services';
+import { IRequestExtended } from '../interfaces';
+import { HEADER } from '../constants';
+import { tokenRepository } from '../repositories';
 
 class AuthMiddleware {
     public async checkAccessToken(req:IRequestExtended, res:Response, next:NextFunction) {

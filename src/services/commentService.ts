@@ -1,7 +1,7 @@
 import { UpdateResult } from 'typeorm';
 
-import { IComment } from '../entity/comment';
-import { commentRepository } from '../repositories/comments/commentRepository';
+import { IComment } from '../entity';
+import { commentRepository } from '../repositories';
 
 class CommentService {
     public async getCommentByUserId(userId:number):Promise<IComment[]> {

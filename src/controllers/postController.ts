@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { UpdateResult } from 'typeorm';
 
-import { IPost } from '../entity/post';
-import { postService } from '../services/postService';
+import { IPost } from '../entity';
+import { postService } from '../services';
 
 class PostController {
     public async getPostById(req:Request, res:Response):Promise<Response<IPost[]>> {

@@ -1,13 +1,10 @@
 import { Request, Response } from 'express';
 
-import { authService } from '../services/authService';
-import { COOKIE } from '../constants/cookie';
-import { tokenService } from '../services/tokenService';
-import { IRequestExtended } from '../interfaces/requestExtended.interface';
-import { IUser } from '../entity/user';
-import { tokenRepository } from '../repositories/token/tokenRepository';
-import { userService } from '../services/userService';
-import { HEADER } from '../constants/header';
+import { authService, tokenService, userService } from '../services';
+import { COOKIE, HEADER } from '../constants';
+import { IRequestExtended } from '../interfaces';
+import { IUser } from '../entity';
+import { tokenRepository } from '../repositories';
 
 class AuthController {
     public async registration(req:Request, res:Response) {

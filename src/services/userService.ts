@@ -1,8 +1,8 @@
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import bcrypt from 'bcrypt';
-import { userRepository } from '../repositories/users/usersRepository';
-import { IUser } from '../entity/user';
+import { userRepository } from '../repositories';
+import { IUser } from '../entity';
 
 class UserService {
     public async getUsers():Promise<IUser[]> {
