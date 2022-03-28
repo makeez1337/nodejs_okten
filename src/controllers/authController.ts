@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 
-import { authService, tokenService, userService } from '../services';
-import { COOKIE, HEADER } from '../constants';
+import {
+    emailService, authService, tokenService, userService,
+} from '../services';
+import { COOKIE, emailActionEnum, HEADER } from '../constants';
 import { IRequestExtended } from '../interfaces';
 import { IUser } from '../entity';
 import { tokenRepository } from '../repositories';
@@ -35,6 +37,7 @@ class AuthController {
                 { userId: id, userEmail: email },
             );
             await tokenRepository.createToken({ accessToken, refreshToken, userId: id });
+            await emailService.sendMail(emailActionEnum.ACCOUNT_WAS_BLOCKED, email);
 
             res.json({
                 refreshToken,

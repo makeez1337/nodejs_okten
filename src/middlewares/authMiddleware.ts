@@ -4,7 +4,8 @@ import { tokenService, userService } from '../services';
 import { IRequestExtended } from '../interfaces';
 import { HEADER } from '../constants';
 import { tokenRepository } from '../repositories';
-import { ErrorHandler } from '../error/errorHandler';
+import { ErrorHandler } from '../error';
+import { authValidator } from '../validators';
 
 class AuthMiddleware {
     public async checkAccessToken(req:IRequestExtended, res:Response, next:NextFunction) {
@@ -12,7 +13,7 @@ class AuthMiddleware {
             const accessToken = req.get(HEADER.Authorization);
 
             if (!accessToken) {
-                next(new ErrorHandler('Token is not valid', 404));
+                next(new ErrorHandler('Token is not valid', 401));
                 return;
             }
 
@@ -21,7 +22,7 @@ class AuthMiddleware {
 
             const tokenPairFromDB = await tokenRepository.findTokenByParams({ accessToken });
             if (!tokenPairFromDB) {
-                next(new ErrorHandler('Token is not valid', 404));
+                next(new ErrorHandler('Token is not valid', 401));
                 return;
             }
 
@@ -45,7 +46,7 @@ class AuthMiddleware {
             const refreshToken = req.get(HEADER.Authorization);
 
             if (!refreshToken) {
-                next(new ErrorHandler('Token is not valid', 404));
+                next(new ErrorHandler('Token is not valid', 401));
                 return;
             }
 
@@ -54,7 +55,7 @@ class AuthMiddleware {
 
             const tokenPairFromDB = await tokenRepository.findTokenByParams({ refreshToken });
             if (!tokenPairFromDB) {
-                next(new ErrorHandler('Token is not valid', 404));
+                next(new ErrorHandler('Token is not valid', 401));
                 return;
             }
 
@@ -70,6 +71,39 @@ class AuthMiddleware {
                 status: 400,
                 message: e.message,
             });
+        }
+    }
+
+    // JOI VALIDATORS
+    public isLoginValid(req:IRequestExtended, res:Response, next: NextFunction) {
+        try {
+            const { error, value } = authValidator.login.validate(req.body);
+
+            if (error) {
+                next(new ErrorHandler(error.details[0].message));
+                return;
+            }
+
+            req.body = value;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public isRegistrationValid(req: IRequestExtended, res: Response, next: NextFunction) {
+        try {
+            const { error, value } = authValidator.registration.validate(req.body);
+
+            if (error) {
+                next(new ErrorHandler(error.details[0].message));
+                return;
+            }
+
+            req.body = value;
+            next();
+        } catch (e) {
+            next(e);
         }
     }
 }

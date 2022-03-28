@@ -1,7 +1,17 @@
-import { Joi } from 'celebrate';
+import Joi from 'joi';
+
 import { regexp } from '../../constants';
 
 export const commonValidator = {
-    emailValidator: Joi.string().required().regex(regexp.EMAIL_REGEXP),
-    passwordValidator: Joi.string().alphanum().required().min(8),
+    emailValidator: Joi.string()
+        .required()
+        .trim()
+        .regex(regexp.EMAIL_REGEXP)
+        .message('Email not valid'),
+    passwordValidator: Joi.string()
+        .alphanum()
+        .required()
+        .min(5)
+        .trim()
+        .message('Password not valid'),
 };

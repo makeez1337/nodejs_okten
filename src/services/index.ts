@@ -1,3 +1,4 @@
+export * from './emailService';
 export * from './postService';
 export * from './userService';
 export * from './authService';
