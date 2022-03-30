@@ -12,6 +12,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(apiRouter);
 
+// @ts-ignore
+global.rootDir = __dirname;
+
 const { PORT } = config;
 
 app.listen(PORT, async () => {

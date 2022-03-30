@@ -2,7 +2,7 @@ import { userService } from './userService';
 import { IUser } from '../entity';
 import { tokenService } from './tokenService';
 import { emailService } from './emailService';
-import { emailActionEnum } from '../constants';
+import { EmailActionEnum } from '../constants';
 
 class AuthService {
     public async registration(user:IUser) {
@@ -13,8 +13,7 @@ class AuthService {
         }
 
         const createUser = await userService.createUser(user);
-        await emailService.sendMail(emailActionEnum.SUCCESS_REGISTERED, email);
-
+        await emailService.sendMail(EmailActionEnum.SUCCESS_REGISTERED, email);
         return this._getTokenData(createUser);
     }
 

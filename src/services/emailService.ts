@@ -1,11 +1,25 @@
-import nodemailer from 'nodemailer';
+import nodemailer, { SentMessageInfo } from 'nodemailer';
+import EmailTemplate from 'email-templates';
 
+import path from 'path';
 import { config } from '../config';
-import { emailActionEnum, emailInfo } from '../constants';
+import { EmailActionEnum, emailInfo } from '../constants';
 
 class EmailService {
-    public async sendMail(action:emailActionEnum, userMail:string) {
-        const { subject, html } = emailInfo[action];
+    public async sendMail(action:EmailActionEnum, userMail:string, context = {})
+        :Promise<SentMessageInfo> {
+        const { subject, templateName } = emailInfo[action];
+        // @ts-ignore
+        const src = global.rootDir;
+
+        const templateRenderer = new EmailTemplate({
+            views: {
+                root: path.join(src, 'email-templates'),
+            },
+        });
+        Object.assign(context, { frontendUrl: 'google.com' });
+
+        const html = await templateRenderer.render(templateName, context);
 
         const emailTransported = nodemailer.createTransport({
             from: 'No Reply Sept-2021',

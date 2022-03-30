@@ -1,16 +1,16 @@
-import { emailActionEnum } from './enums';
+import { EmailActionEnum } from './enums';
 
 export const emailInfo = {
-    [emailActionEnum.WELCOME]: {
-        subject: 'Welcome',
-        html: '<b>HELLO FROM NODEMAILER</b>',
+    [EmailActionEnum.WELCOME]: {
+        subject: 'Welcome to Sept-2021',
+        templateName: 'welcome',
     },
-    [emailActionEnum.ACCOUNT_WAS_BLOCKED]: {
+    [EmailActionEnum.ACCOUNT_WAS_BLOCKED]: {
         subject: 'FORBIDDEN',
-        html: '<b>Sorry, but your account was blocked</b>',
+        templateName: 'blocked',
     },
-    [emailActionEnum.SUCCESS_REGISTERED]: {
+    [EmailActionEnum.SUCCESS_REGISTERED]: {
         subject: 'Congratulations',
-        html: 'Your account successfully registered',
+        templateName: 'succesRegistered',
     },
 };

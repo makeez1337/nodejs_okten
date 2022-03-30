@@ -1,12 +1,10 @@
-import { Request, Response } from 'express';
+import {Request, Response} from 'express';
 
-import {
-    emailService, authService, tokenService, userService,
-} from '../services';
-import { COOKIE, emailActionEnum, HEADER } from '../constants';
-import { IRequestExtended } from '../interfaces';
-import { IUser } from '../entity';
-import { tokenRepository } from '../repositories';
+import {authService, emailService, tokenService, userService,} from '../services';
+import {COOKIE, EmailActionEnum, HEADER} from '../constants';
+import {IRequestExtended} from '../interfaces';
+import {IUser} from '../entity';
+import {tokenRepository} from '../repositories';
 
 class AuthController {
     public async registration(req:Request, res:Response) {
@@ -28,7 +26,9 @@ class AuthController {
 
     public async login(req:IRequestExtended, res:Response) {
         try {
-            const { id, email, password: hashPassword } = req.user as IUser;
+            const {
+                id, email, password: hashPassword, firstName,
+            } = req.user as IUser;
             const { password } = req.body;
 
             await userService.compareUserPaswords(password, hashPassword);
@@ -37,7 +37,7 @@ class AuthController {
                 { userId: id, userEmail: email },
             );
             await tokenRepository.createToken({ accessToken, refreshToken, userId: id });
-            await emailService.sendMail(emailActionEnum.ACCOUNT_WAS_BLOCKED, email);
+            await emailService.sendMail(EmailActionEnum.WELCOME, email, { userName: firstName });
 
             res.json({
                 refreshToken,
