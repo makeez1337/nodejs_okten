@@ -1,10 +1,12 @@
-import {Request, Response} from 'express';
+import { NextFunction, Request, Response } from 'express';
 
-import {authService, emailService, tokenService, userService,} from '../services';
-import {COOKIE, EmailActionEnum, HEADER} from '../constants';
-import {IRequestExtended} from '../interfaces';
-import {IUser} from '../entity';
-import {tokenRepository} from '../repositories';
+import {
+    authService, emailService, tokenService, userService,
+} from '../services';
+import { COOKIE, EmailActionEnum, HEADER } from '../constants';
+import { IRequestExtended } from '../interfaces';
+import { IUser } from '../entity';
+import { tokenRepository } from '../repositories';
 
 class AuthController {
     public async registration(req:Request, res:Response) {
@@ -68,6 +70,45 @@ class AuthController {
             });
         } catch (e) {
             res.status(400).json(e);
+        }
+    }
+
+    public async resetPassword(req:IRequestExtended, res:Response, next:NextFunction) {
+        try {
+            const { firstName, email, id } = req.user as IUser;
+
+            const actionToken = await tokenService.generateActionToken({ userId: id, userEmail: email });
+            await tokenService.saveActionToken(actionToken, id);
+            await emailService.sendMail(
+                EmailActionEnum.FORGOT_PASS,
+                email,
+                {
+                    firstName,
+                    resetPass: `https://localhost:3000/${actionToken}`,
+                },
+            );
+            res.json({
+                actionToken,
+            });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async setNewPassword(req:IRequestExtended, res:Response, next:NextFunction)
+        :Promise<Response<string> | undefined> {
+        try {
+            const actionToken = req.get(HEADER.Authorization);
+            const { id } = req.user as IUser;
+
+            const { password } = req.body;
+            const hashedPassword = await userService.hashedPassword(password);
+            await userService.updateUserPassword(id, hashedPassword);
+            await tokenService.deleteActionTokenByParam({ actionToken });
+
+            return res.json(`Your new password ${password}`);
+        } catch (e) {
+            next(e);
         }
     }
 }

@@ -74,6 +74,36 @@ class AuthMiddleware {
         }
     }
 
+    public async checkActionToken(req:IRequestExtended, res:Response, next:NextFunction) {
+        try {
+            const actionToken = req.get(HEADER.Authorization);
+
+            if (!actionToken) {
+                next(new ErrorHandler('Token is not valid', 401));
+                return;
+            }
+
+            const { userEmail } = await tokenService.verifyToken(actionToken, 'action');
+
+            const userFromToken = await userService.getUserByEmail(userEmail);
+            if (!userFromToken) {
+                next(new ErrorHandler('Wrong token', 401));
+                return;
+            }
+
+            const actionTokenFromDb = await tokenRepository.findActionTokenByParam({ actionToken });
+            if (!actionTokenFromDb) {
+                next(new ErrorHandler('Wrong token', 401));
+                return;
+            }
+
+            req.user = userFromToken;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
     // JOI VALIDATORS
     public isLoginValid(req:IRequestExtended, res:Response, next: NextFunction) {
         try {
@@ -101,6 +131,43 @@ class AuthMiddleware {
             }
 
             req.body = value;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public isPasswordValid(req:IRequestExtended, res:Response, next:NextFunction) {
+        try {
+            const { error } = authValidator.password.validate(req.body);
+
+            if (error) {
+                next(new ErrorHandler(error.details[0].message));
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async isEmailValid(req:IRequestExtended, res:Response, next:NextFunction) {
+        try {
+            const { error } = authValidator.email.validate(req.body);
+
+            if (error) {
+                next(new ErrorHandler(error.details[0].message));
+                return;
+            }
+
+            const user = await userService.getUserByEmail(req.body.email);
+
+            if (!user) {
+                next(new ErrorHandler('Such user doesnt exists', 404));
+                return;
+            }
+
+            req.user = user;
             next();
         } catch (e) {
             next(e);

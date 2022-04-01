@@ -10,4 +10,12 @@ router.post('/login', authMiddleware.isLoginValid, userMiddleware.checkIsUserExi
 router.post('/logout', authMiddleware.checkAccessToken, authController.logout);
 router.post('/refresh', authMiddleware.checkRefreshToken, authController.refreshToken);
 
+router.post('/resetPassword', authMiddleware.isEmailValid, authController.resetPassword);
+router.post(
+    '/resetPassword/set',
+    authMiddleware.checkActionToken,
+    authMiddleware.isPasswordValid,
+    authController.setNewPassword,
+);
+
 export const authRouter = router;

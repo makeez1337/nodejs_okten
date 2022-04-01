@@ -16,5 +16,11 @@ export const authValidator = {
         phone: Joi.string().required().regex(regexp.PHONE_REGEXP).trim(),
         email: commonValidator.emailValidator,
     }),
+    password: Joi.object().keys({
+        password: commonValidator.passwordValidator,
+    }),
 
+    email: Joi.object().keys({
+        email: commonValidator.emailValidator,
+    }),
 };

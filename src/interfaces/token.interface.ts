@@ -8,6 +8,11 @@ export interface ITokenPair {
     refreshToken: string;
 }
 
+export interface IActionDataToSave {
+    actionToken: string;
+    userId:number;
+}
+
 export interface IUserPayload {
     userId: number,
     userEmail: string,

@@ -24,6 +24,10 @@ export class UsersRepository extends Repository<User> implements IUserRepository
             });
     }
 
+    public async updateUserPassword(id: number, password: string):Promise<UpdateResult> {
+        return getManager().getRepository(User).update({ id }, { password });
+    }
+
     public async getUserByEmail(email:string):Promise<IUser | undefined> {
         return getManager().getRepository(User)
             .createQueryBuilder('user')

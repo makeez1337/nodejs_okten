@@ -11,7 +11,7 @@ class UserService {
 
     public async createUser(user:IUser):Promise<IUser> {
         const { password } = user;
-        const hashedPassword = await this._hashedPassword(password);
+        const hashedPassword = await this.hashedPassword(password);
         const dataToSave = { ...user, password: hashedPassword };
 
         return userRepository.createUser(dataToSave);
@@ -19,6 +19,10 @@ class UserService {
 
     public async updateUser(password:string, email:string, id:number):Promise<UpdateResult> {
         return userRepository.updatedUser(password, email, id);
+    }
+
+    public async updateUserPassword(id:number, password:string):Promise<UpdateResult> {
+        return userRepository.updateUserPassword(id, password);
     }
 
     public async deleteUser(id:number):Promise<DeleteResult> {
@@ -37,7 +41,7 @@ class UserService {
         }
     }
 
-    private async _hashedPassword(password:string):Promise<string> {
+    public async hashedPassword(password:string):Promise<string> {
         return bcrypt.hash(password, 10);
     }
 }
