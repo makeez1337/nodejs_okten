@@ -3,5 +3,6 @@ export enum EmailActionEnum {
     WELCOME = 0,
     ACCOUNT_WAS_BLOCKED = 1,
     SUCCESS_REGISTERED,
-    FORGOT_PASS
+    FORGOT_PASS,
+    SEND_GREETING_MAILS
 }

@@ -4,6 +4,7 @@ import 'reflect-metadata';
 
 import { apiRouter } from './routes';
 import { config } from './config';
+import { cronRun } from './cron';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.listen(PORT, async () => {
 
         if (connection) {
             console.log('Database is connected');
+            cronRun();
         }
     } catch (e) {
         if (e) {

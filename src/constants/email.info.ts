@@ -17,4 +17,8 @@ export const emailInfo = {
         subject: 'reset password',
         templateName: 'resetPassword',
     },
+    [EmailActionEnum.SEND_GREETING_MAILS]: {
+        subject: 'My greetings',
+        templateName: 'sendGreetingMails',
+    },
 };

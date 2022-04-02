@@ -1,4 +1,6 @@
-import { Column, DeleteDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export interface ICommonFields {
     id:number;
@@ -14,6 +16,7 @@ export class CommonFields implements ICommonFields {
         nullable: false,
         default: Date.now(),
     })
+    @CreateDateColumn({ type: 'timestamp' })
         createdAt: string;
 
     @Column()

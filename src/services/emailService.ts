@@ -6,7 +6,7 @@ import { config } from '../config';
 import { EmailActionEnum, emailInfo } from '../constants';
 
 class EmailService {
-    public async sendMail(action:EmailActionEnum, userMail:string, context = {})
+    public async sendMail(action:EmailActionEnum, userMail:string | Array<string>, context = {})
         :Promise<SentMessageInfo> {
         const { subject, templateName } = emailInfo[action];
         // @ts-ignore

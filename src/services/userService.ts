@@ -9,6 +9,14 @@ class UserService {
         return userRepository.getUsers();
     }
 
+    public async getNewUsers():Promise<IUser[]> {
+        return userRepository.getNewUsers();
+    }
+
+    public async getUserEmails() {
+        return userRepository.getUserEmails();
+    }
+
     public async createUser(user:IUser):Promise<IUser> {
         const { password } = user;
         const hashedPassword = await this.hashedPassword(password);
