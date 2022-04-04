@@ -7,6 +7,7 @@ import utc from 'dayjs/plugin/utc';
 
 import { IUser, User } from '../../entity';
 import { IUserRepository } from './userRepository.interface';
+import { IPaginationResponce } from '../../interfaces';
 
 dayjs.extend(utc);
 
@@ -59,11 +60,29 @@ export class UsersRepository extends Repository<User> implements IUserRepository
         });
     }
 
-    getUserEmails() {
+    public async getUserEmails() {
         return getManager().getRepository(User).createQueryBuilder('user')
             .select('user.email')
             .distinct(true)
             .getRawMany();
+    }
+
+    public async getUserPagination(
+        page:number,
+        limit:number,
+        searchObject:Partial<IUser> = {},
+    ):Promise<IPaginationResponce<IUser>> {
+        const skip = limit * (page - 1);
+
+        const [users, itemsCount] = await getManager().getRepository(User)
+            .findAndCount({ where: searchObject, skip, take: limit });
+
+        return {
+            page,
+            perPage: limit,
+            itemsCount,
+            data: users,
+        };
     }
 }
 

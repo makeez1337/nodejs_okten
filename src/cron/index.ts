@@ -1,8 +1,8 @@
-import { getNewUsers } from './getNewUsers';
+// import { getNewUsers } from './getNewUsers';
 
 import { sendGreetingMails } from './sendGreetingMails';
 
 export const cronRun = () => {
-    getNewUsers.start();
+    // getNewUsers.start();
     sendGreetingMails.start();
 };

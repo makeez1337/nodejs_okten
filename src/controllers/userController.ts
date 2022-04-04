@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { IUser } from '../entity';
@@ -15,6 +15,17 @@ export class UserController {
         return res.json(users);
     }
 
+    public async getUsersPagination(req:Request, res:Response, next:NextFunction) {
+        try {
+            const { page = 1, perPage = 10, ...other } = req.query;
+            const userPagination = await userService.getUserPagination(Number(page), Number(perPage), other);
+
+            res.json(userPagination);
+        } catch (e) {
+            next(e);
+        }
+    }
+
     public async createUser(req:Request, res:Response):Promise<Response<IUser>> {
         const newUser = await userService.createUser(req.body);
         return res.json(newUser);
@@ -22,7 +33,6 @@ export class UserController {
 
     public async updateUser(req:Request, res:Response):Promise<Response<UpdateResult>> {
         const { password, email } = req.body;
-        console.log(req.body);
 
         const updatedUser = await userService.updateUser(password, email, Number(req.params.id));
         return res.json(updatedUser);

@@ -9,6 +9,10 @@ class UserService {
         return userRepository.getUsers();
     }
 
+    public async getUserPagination(page:number, perPage:number, filterObject:any) {
+        return userRepository.getUserPagination(page, perPage, filterObject);
+    }
+
     public async getNewUsers():Promise<IUser[]> {
         return userRepository.getNewUsers();
     }
