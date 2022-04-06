@@ -1,22 +1,47 @@
 import { NextFunction, Request, Response } from 'express';
 
+import { UploadedFile } from 'express-fileupload';
 import {
     authService, emailService, tokenService, userService,
 } from '../services';
-import { COOKIE, EmailActionEnum, HEADER } from '../constants';
+import { EmailActionEnum, HEADER } from '../constants';
 import { IRequestExtended } from '../interfaces';
 import { IUser } from '../entity';
 import { tokenRepository } from '../repositories';
+import { ErrorHandler } from '../error';
+import { s3Service } from '../services/s3Service';
 
 class AuthController {
-    public async registration(req:Request, res:Response) {
-        const data = await authService.registration(req.body);
-        res.cookie(
-            COOKIE.nameRefreshToken,
-            data.refreshToken,
-            { maxAge: COOKIE.maxAgeRefreshToken, httpOnly: true },
-        );
-        return res.json(data);
+    public async registration(req:Request, res:Response, next:NextFunction):Promise<void> {
+        try {
+            const { email } = req.body;
+            const avatar = req.files?.avatar as UploadedFile;
+
+            const userFromDb = await userService.getUserByEmail(email);
+
+            if (userFromDb) {
+                next(new ErrorHandler(`User with email ${email} already exists`));
+            }
+
+            const createdUser = await userService.createUser(req.body);
+
+            // await emailService.sendMail(EmailActionEnum.SUCCESS_REGISTERED, email);
+
+            if (avatar) {
+                // const sendData = await s3Service.uploadFile(avatar, 'user', createdUser.id);
+                await s3Service.uploadFile(avatar, 'user', createdUser.id);
+
+                // console.log('+++++++++++++++++++++++++');
+                // console.log(sendData.Location);
+                // console.log('+++++++++++++++++++++++++');
+            }
+
+            const createdUserData = await authService.registration(createdUser);
+
+            res.json(createdUserData);
+        } catch (e) {
+            next(e);
+        }
     }
 
     public async logout(req:IRequestExtended, res:Response) {
@@ -58,8 +83,8 @@ class AuthController {
 
             await tokenService.deleteTokenPairByParam({ refreshToken: refreshTokenToDelete });
 
-            const { refreshToken, accessToken } = await
-            tokenService.generateTokenPair({ userId: id, userEmail: email });
+            // eslint-disable-next-line max-len
+            const { refreshToken, accessToken } = await tokenService.generateTokenPair({ userId: id, userEmail: email });
 
             await tokenRepository.createToken({ refreshToken, accessToken, userId: id });
 

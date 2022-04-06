@@ -1,6 +1,7 @@
 import express from 'express';
 import { createConnection } from 'typeorm';
 import 'reflect-metadata';
+import fileUpload from 'express-fileupload';
 
 import { apiRouter } from './routes';
 import { config } from './config';
@@ -8,6 +9,7 @@ import { cronRun } from './cron';
 
 const app = express();
 
+app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -1,20 +1,9 @@
-import { userService } from './userService';
 import { IUser } from '../entity';
 import { tokenService } from './tokenService';
-import { emailService } from './emailService';
-import { EmailActionEnum } from '../constants';
 
 class AuthService {
-    public async registration(user:IUser) {
-        const { email } = user;
-        const userFromDb = await userService.getUserByEmail(email);
-        if (userFromDb) {
-            throw new Error(`User with email ${email} already exists`);
-        }
-
-        const createUser = await userService.createUser(user);
-        await emailService.sendMail(EmailActionEnum.SUCCESS_REGISTERED, email);
-        return this._getTokenData(createUser);
+    public async registration(createdUser:IUser) {
+        return this._getTokenData(createdUser);
     }
 
     private async _getTokenData(userData:IUser) {
