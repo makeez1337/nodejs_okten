@@ -1,5 +1,6 @@
 import express from 'express';
 import { createConnection } from 'typeorm';
+import mongoose from 'mongoose';
 import 'reflect-metadata';
 import fileUpload from 'express-fileupload';
 import SocketIO from 'socket.io';
@@ -42,6 +43,8 @@ io.on('connection', (socket:any) => {
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+mongoose.connect('mongodb://localhost:27017/sept-2021');
 
 app.use(apiRouter);
 

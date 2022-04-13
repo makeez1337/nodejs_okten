@@ -28,7 +28,8 @@
         "no-unused-vars": "off",
         "consistent-return": "off",
         "no-underscore-dangle": "off",
-        "max-len": ["error", { "code": 110 }]
+        "max-len": ["error", { "code": 110 }],
+        "prefer-template": "off"
     },
     "settings": {
         "import/resolver": {
