@@ -21,7 +21,9 @@
             "error",
             {
                 "js": "never",
-                "ts": "never"
+                "ts": "never",
+                "json": "ignorePackages"
+
             }
         ],
         "class-methods-use-this": "off",
@@ -36,6 +38,9 @@
             "node": {
                 "extensions": [".js", ".ts"]
             }
-        }
+        },
+        "import/ignore": [
+            ".json"
+        ]
     }
 }

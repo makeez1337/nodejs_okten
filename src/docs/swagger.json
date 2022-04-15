@@ -1,0 +1,116 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Sept-2021",
+    "description": "This is test documentation",
+    "version": "1.0",
+    "contact": {
+      "name": "Maksym",
+      "email": "maksymmelnu4yk@gmail.com"
+    }
+  },
+  "host": "localhost:5200",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "description": "Get all users",
+        "operationId": "getAllUsers",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": "1"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "Maksym"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "Melnychuk"
+                  },
+                  "age": {
+                    "type": "number",
+                    "example": 18
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+380 (99)-888-77-66"
+                  },
+                  "email": {
+                    "$ref": "#/definitions/emailExample"
+                  }
+                }
+              }
+            },
+            "description": "Array with users"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/errorResponse"
+            },
+            "description": "Error"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createNewUser",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "firstName",
+            "in": "body",
+            "pattern": "Oleg",
+            "description": "This is simple name"
+          },
+          {
+            "type": "string",
+            "name": "email",
+            "in": "body",
+            "description": "Type valid email",
+            "format": "email"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+
+            },
+            "description": "Successfully created user"
+          }
+        },
+        "description": "New user"
+      }
+    }
+  },
+  "definitions": {
+    "emailExample": {
+      "type": "string",
+      "example": "asdqwe123@example.com"
+    },
+    "errorResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string",
+          "example": "Something went wrong",
+          "description": "Default error message"
+        }
+      }
+    }
+  }
+}
