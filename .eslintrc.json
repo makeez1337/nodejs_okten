@@ -38,9 +38,6 @@
             "node": {
                 "extensions": [".js", ".ts"]
             }
-        },
-        "import/ignore": [
-            ".json"
-        ]
+        }
     }
 }
